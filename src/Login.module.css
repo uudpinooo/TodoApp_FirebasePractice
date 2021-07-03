@@ -8,7 +8,3 @@
 .root input {
   width: 100%;
 }
-
-.root button:hover {
-  cursor: pointer;
-}
