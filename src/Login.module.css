@@ -2,13 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 25vw;
 }
 
-.root p {
-  text-align: center;
-  text-decoration: underline;
+.root input {
+  width: 100%;
 }
 
-.root p:hover {
+.root button:hover {
   cursor: pointer;
 }

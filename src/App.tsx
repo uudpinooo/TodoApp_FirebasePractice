@@ -1,13 +1,15 @@
 import React, { useEffect, useState, VFC } from 'react';
 import styles from './App.module.css';
-import { db } from './firebase';
+import { auth, db } from './firebase';
 
 type Task = {
   id: string;
   title: string;
 };
 
-export const App: VFC = () => {
+export const App: VFC = (props: any) => {
+  const { history } = props;
+
   const [tasks, setTasks] = useState<Task[]>([]);
   const [inputValue, setInputValue] = useState('');
 
@@ -39,9 +41,10 @@ export const App: VFC = () => {
   };
 
   // タスク編集フォームの表示
-  const onClickOpenEditForm = (id: string) => {
+  const onClickOpenEditForm = (task: Task) => {
     setEdit(true);
-    setEditTaskId(id);
+    setEditValue(task.title);
+    setEditTaskId(task.id);
   };
 
   // 編集内容入力
@@ -62,7 +65,14 @@ export const App: VFC = () => {
     db.collection('tasks').doc(id).delete();
   };
 
+  // ログアウト
+  const onClickLogout = async () => {
+    await auth.signOut();
+    history.push('/login');
+  };
+
   return (
+    // <div className={styles.root}>
     <div className={styles.root}>
       <h1>TodoApp by Firebase + React/TypeScript☺️</h1>
       <div>
@@ -84,11 +94,12 @@ export const App: VFC = () => {
           {tasks.map((task: Task) => (
             <li key={task.id}>
               {task.title}
-              <button onClick={() => onClickOpenEditForm(task.id)}>編集</button>
+              <button onClick={() => onClickOpenEditForm(task)}>編集</button>
               <button onClick={() => onClickDeleteTask(task.id)}>削除</button>
             </li>
           ))}
         </ul>
+        <p onClick={onClickLogout}>ログアウト</p>
       </div>
     </div>
   );
