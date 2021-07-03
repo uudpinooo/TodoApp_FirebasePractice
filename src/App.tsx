@@ -28,6 +28,14 @@ export const App: VFC = (props: any) => {
     return () => unSub();
   }, []);
 
+  // 未ログインユーザーはアクセスできず/loginへ遷移
+  useEffect(() => {
+    const unSub = auth.onAuthStateChanged((user) => {
+      !user && history.push('/login');
+    });
+    return () => unSub();
+  }, [history]);
+
   // タスク入力
   const onChangeInputValue = (event: React.ChangeEvent<HTMLElement>) => {
     const value = (event.target as HTMLInputElement).value;

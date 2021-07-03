@@ -10,6 +10,7 @@ export const Login: VFC = (props: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // ログイン済みユーザーはメインページへ遷移
   useEffect(() => {
     const unSub = auth.onAuthStateChanged((user) => {
       user && history.push('/');
